@@ -1593,7 +1593,7 @@ Licensed under the BSD-2-Clause License.
     };
 
     Bar.prototype.hoverContentForRow = function(index) {
-      var content, j, row, x, y, _i, _len, _ref;
+      var content, j, row, x, y, _i, _len, _ref, total;
       row = this.data[index];
       content = "<div class='morris-hover-row-label'>" + row.label + "</div>";
       _ref = row.y;
@@ -1601,7 +1601,6 @@ Licensed under the BSD-2-Clause License.
         y = _ref[j];
         content += "<div class='morris-hover-point' style='color: " + (this.colorFor(row, j, 'label')) + "'>\n  " + this.options.labels[j] + ":\n  " + (this.yLabelFormat(y)) + "\n</div>";
       }
-      console.debug(this.options.xkey);
       // display extra data given by labels
       for (var j in row.src){
         // if this is a label that is not an x label, or ykey, and is specified in the labels
@@ -1609,6 +1608,17 @@ Licensed under the BSD-2-Clause License.
         {
           content += "<div class='morris-hover-point' style='color: " + (this.colorFor(row, 0, 'label')) + "'>\n  " + j + ":\n  " + row.src[j] + "\n</div>";
         }
+      }
+
+      // DP: display the stacked bar sum value
+      if( this.options.stacked)
+      {
+        total = 0;
+        for (var j in row.src){
+          total = total + (parseFloat(row.src[j]) || 0.0);
+        }
+        total = total.toFixed(2);
+        content += "<div class='morris-hover-point'> total: " + total + "</div>"
       }
       if (typeof this.options.hoverCallback === 'function') {
         content = this.options.hoverCallback(index, this.options, content, row.src);
