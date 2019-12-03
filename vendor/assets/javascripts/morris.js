@@ -1611,15 +1611,16 @@ Licensed under the BSD-2-Clause License.
       }
 
       // DP: display the stacked bar sum value
-      if( this.options.stacked)
-      {
-        total = 0;
-        for (var j in row.src){
-          total = total + (parseFloat(row.src[j]) || 0.0);
-        }
-        total = total.toFixed(2);
-        content += "<div class='morris-hover-point'> total: " + total + "</div>"
-      }
+      // REVERT: this logic does not work
+      // if( this.options.stacked)
+      // {
+      //   total = 0;
+      //   for (var j in row.src){
+      //     total = total + (parseFloat(row.src[j]) || 0.0);
+      //   }
+      //   total = total.toFixed(2);
+      //   content += "<div class='morris-hover-point'> total: " + total + "</div>"
+      // }
       if (typeof this.options.hoverCallback === 'function') {
         content = this.options.hoverCallback(index, this.options, content, row.src);
       }
